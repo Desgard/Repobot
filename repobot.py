@@ -5,11 +5,11 @@ from github import Github
 from employee import Employ
 import datetime
 
-input_username = input("Github username: ")
-input_password = input("password: ")
+# input_username = input("Github username: ")
+# input_password = input("password: ")
 
-# input_username = ""
-# input_password = ""
+input_username = "Desgard"
+input_password = "dhy94113"
 
 github_obj = Github(input_username, input_password)
 
