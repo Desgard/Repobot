@@ -6,11 +6,9 @@ from employee import EmployCommit
 from employee import EmployIssue
 import datetime
 
-#input_username = input("Github username: ")
-#input_password = input("password: ")
+input_username = input("Github username: ")
+input_password = input("password: ")
 
-input_username = "Desgard"
-input_password = "dhy94113"
 
 github_obj = Github(input_username, input_password)
 
