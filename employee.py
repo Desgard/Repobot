@@ -21,6 +21,17 @@ class EmployCommit:
             print(repr(commit['url']).ljust(20))
             print()
 
+    def write_2_md(self):
+        file_name = self.name + '-commit-list.md'
+        f = open(file_name, "w")
+        print("#", self.name, "的 commit 周报\n", file = f)
+        print("##", self.name, "在本周共有", self.commits_tot, "次 commits \n", file = f)
+        index = 1
+        for commit in self.commits:
+            print("%d. [%s](%s)\n" % (index, commit['message'], commit['url']), file = f)
+            index += 1
+        print("---", file = f)
+
 class EmployIssue:
     def __init__(self, name, comments_tot = 0, comments = []) :
         self.name = name
@@ -40,3 +51,14 @@ class EmployIssue:
             print(repr(comment['id']).ljust(15), repr(comment['related_issue_title'].ljust(30)))
             print(repr(comment['url']).ljust(20))
             print()
+
+    def write_2_md(self):
+        file_name = self.name + '-issue-list.md'
+        f = open(file_name, "w")
+        print("#", self.name, "的 issue 周报\n", file = f)
+        print("##", self.name, "在本周共解决", self.comments_tot, "个 issue \n", file = f)
+        index = 1
+        for comment in self.comments:
+            print("%d. [%s](%s)\n" % (index, comment['related_issue_title'], comment['url']), file = f)
+            index += 1
+        print('---', file = f)

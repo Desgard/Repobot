@@ -8,8 +8,6 @@ import datetime
 
 input_username = input("Github username: ")
 input_password = input("password: ")
-
-
 github_obj = Github(input_username, input_password)
 
 while True:
@@ -27,15 +25,12 @@ while True:
         commites = repo_obj.get_commits(sha = branch_name, since = datetime.datetime.now() - datetime.timedelta(days = 7), until = datetime.datetime.now())
         for commit in commites:
             author_name = commit.author.name
-#           if author_name in contributions:
-#               contributions[author_name] += 1
-#           else:
-#               contributions[author_name] = 1
             commit_dic = {
                 "author":   commit.author.name,
                 "sha":      commit.sha,
                 "time":     commit.last_modified,
                 "url":      commit.html_url,
+                "message":  commit.commit.message,
             }
 
             if author_name in contributions:
@@ -43,11 +38,10 @@ while True:
                 contributions[author_name].add_commit(commit_dic)
             else:
                 contributions[author_name] = EmployCommit(name = author_name, commits_tot = 1, commits = [commit_dic])
- #        for author in contributions:
- #            print(repr(author).rjust(20), repr(contributions[author]).rjust(4), "commits")
 
         for key in contributions:
             contributions[key].show_commit_tot()
+            contributions[key].write_2_md()
         print("\n")
 
     elif func_command == "issue":
@@ -80,6 +74,7 @@ while True:
 
         for key in issue_contributions:
             issue_contributions[key].show_issue_tot()
+            issue_contributions[key].write_2_md()
 
     elif func_command == "exit" :
         break
