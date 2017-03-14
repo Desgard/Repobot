@@ -2,11 +2,15 @@
 # encoding: utf-8
 
 from github import Github
-from employee import Employ
+from employee import EmployCommit
+from employee import EmployIssue
 import datetime
 
-input_username = input("Github username: ")
-input_password = input("password: ")
+#input_username = input("Github username: ")
+#input_password = input("password: ")
+
+input_username = "Desgard"
+input_password = "dhy94113"
 
 github_obj = Github(input_username, input_password)
 
@@ -17,22 +21,35 @@ while True:
     print(repr("exit").ljust(15), "- Quit repobot\n")
     func_command = input()
     if func_command == "contribution":
+        contributions = {}
         repo_name = input("repo: ")
         repo_obj = github_obj.get_user().get_repo(repo_name)
         print('In', repo_obj.name, ', we need to choose a branch: ')
         branch_name = input("branch: ")
         commites = repo_obj.get_commits(sha = branch_name, since = datetime.datetime.now() - datetime.timedelta(days = 7), until = datetime.datetime.now())
-        contributions = {}
         for commit in commites:
             author_name = commit.author.name
+#           if author_name in contributions:
+#               contributions[author_name] += 1
+#           else:
+#               contributions[author_name] = 1
+            commit_dic = {
+                "author":   commit.author.name,
+                "sha":      commit.sha,
+                "time":     commit.last_modified,
+                "url":      commit.html_url,
+            }
+
             if author_name in contributions:
-                contributions[author_name] += 1
+                contributions[author_name].add_commits_tot()
+                contributions[author_name].add_commit(commit_dic)
             else:
-                contributions[author_name] = 1
+                contributions[author_name] = EmployCommit(name = author_name, commits_tot = 1, commits = [commit_dic])
+ #        for author in contributions:
+ #            print(repr(author).rjust(20), repr(contributions[author]).rjust(4), "commits")
 
-        for author in contributions:
-            print(repr(author).rjust(20), repr(contributions[author]).rjust(4), "commits")
-
+        for key in contributions:
+            contributions[key].show_commit_tot()
         print("\n")
 
     elif func_command == "issue":
@@ -61,7 +78,7 @@ while True:
                         issue_contributions[name].add_comments_tot()
                         issue_contributions[name].add_comment(comment_dic)
                     else:
-                        issue_contributions[name] = Employ(name = name, comments_tot = 1, comments = [comment_dic])
+                        issue_contributions[name] = EmployIssue(name = name, comments_tot = 1, comments = [comment_dic])
 
         for key in issue_contributions:
             issue_contributions[key].show_issue_tot()
