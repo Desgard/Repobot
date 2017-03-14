@@ -60,6 +60,7 @@ while True:
                         "body":     comment.body,
                         "url":      comment.html_url,
                         "update":   comment.updated_at,
+                        "status":               issue.state,
                         "related_issue_title":  issue.title,
                         "related_issue_body":   issue.body,
                         "related_issue_id":     issue.id,

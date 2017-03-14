@@ -28,7 +28,7 @@ class EmployCommit:
         print("##", self.name, "在本周共有", self.commits_tot, "次 commits \n", file = f)
         index = 1
         for commit in self.commits:
-            print("%d. [%s](%s)\n" % (index, commit['message'], commit['url']), file = f)
+            print("%d. [%s](%s) - %s \n" % (index, commit['message'], commit['url'], commit['time']), file = f)
             index += 1
         print("---", file = f)
 
@@ -56,9 +56,8 @@ class EmployIssue:
         file_name = self.name + '-issue-list.md'
         f = open(file_name, "w")
         print("#", self.name, "的 issue 周报\n", file = f)
-        print("##", self.name, "在本周共解决", self.comments_tot, "个 issue \n", file = f)
-        index = 1
+        print("##", self.name, "在本周共参与", self.comments_tot, "个 issue \n", file = f)
         for comment in self.comments:
-            print("%d. [%s](%s)\n" % (index, comment['related_issue_title'], comment['url']), file = f)
-            index += 1
+            print("Update: **%s**\nStatus: **%s** \n" % (comment['update'], comment['status']), file = f)
+            print("* %s - [%s](%s)\n" % (comment['id'], comment['related_issue_title'], comment['url']), file = f)
         print('---', file = f)
